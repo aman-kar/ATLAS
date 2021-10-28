@@ -129,9 +129,9 @@ for j in target_:
         
         #Global plotting parameters
         plt.style.use('default')
-        plt.rcParams["font.family"] = 'Times New Roman'
-        plt.rcParams["figure.figsize"] = (14, 10)
-        plt.rcParams["figure.dpi"] = 300
+        #plt.rcParams["font.family"] = 'Times New Roman'
+        #plt.rcParams["figure.figsize"] = (5,3)
+        #plt.rcParams["figure.dpi"] = 300
 
         sector = int(re.search('-s([0-9]{4,4})-',i).group(1)) #Extract Sector number from path to FFI stack
         print(f'\nExtracting Sector {sector}')
@@ -140,7 +140,7 @@ for j in target_:
         tpf = lk.search_targetpixelfile(target,author='TESS-SPOC',mission='TESS',sector=sector).download()
         if tpf:
             tpf.plot(aperture_mask='pipeline', show_colorbar=False, style='bmh', title='Target Pixel File') #Plot TPF Aperture
-            plt.show()
+            plt.show(block=False)
             #Get lightkurve object for given sector from TESS-SPOC (PDCSAP data) 
             lc = lk.search_lightcurve(target,author='TESS-SPOC',mission='TESS',sector=sector).download() 
         else:
@@ -152,13 +152,13 @@ for j in target_:
         s.plot_cutout(l=0, h=98,projection="wcs") #Visually inspect if the correct target has been chosen
         
         if tpf:
-            input("Check if TessCut match with target Coordinates: \n"
-                  "RA = {} | Dec = {} (Hit Enter to Continue) ".format(Angle(tpf.ra,unit=u.degree).to_string(unit=u.hour),
+            print("Check if TessCut match with target Coordinates: \n"
+                  "RA = {} | Dec = {} ".format(Angle(tpf.ra,unit=u.degree).to_string(unit=u.hour),
                                               Angle(tpf.dec,unit=u.degree).to_string(unit=u.degree))) #Double check field
         
         if input("Type N if sector appears corrupted else hit Enter to continue: ")=='N':#Bad Data Check/Skip
             bad+=1 #Increase counter by 1
-            #continue #Skip everything and proceed to next sector
+            continue #Skip everything and proceed to next sector
             
         sectors += [sector] #Append to list of sectors being reduced
         _ = s.plot_cutout(rowlims = [int(cutout_size/2 - 5),int(cutout_size/2 + 5)],
@@ -224,14 +224,14 @@ for j in target_:
         plt.ylabel("Normalized Flux", fontsize=30)
         plt.tick_params(labelsize=20)
         plt.legend(fontsize=30)
-        plt.show()
+        plt.show(block=False)
         
         s_aperture_detrended_flux = s.get_aperture_lc(data_type="cpm_subtracted_flux")
         plt.plot(s.time, s_aperture_detrended_flux, "k-")
         plt.xlabel("Time - 2457000 [Days]", fontsize=30)
         plt.ylabel("CPM Subtracted Flux", fontsize=30)
         plt.tick_params(labelsize=20)
-        plt.show()
+        plt.show(block=False)
         
         #Overlay unpopular with PDCSAP & SAP
         pretty_plot(plt)
