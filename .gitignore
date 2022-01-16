@@ -20,3 +20,4 @@ recons_crossmatch.py
 script_lab.py
 simluated_lc.py
 tess_lightcurves.py
+.DS_Store/
