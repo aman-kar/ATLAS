@@ -8,7 +8,6 @@ apertures.dat
 l098-059_stitched.png
 l098-059_stitched_sap.png
 lomb_scargle.py
-mad.py
 nasa_all_planets_20220102.csv
 nasa_update_tap.py
 old/
@@ -18,6 +17,7 @@ position_angle.py
 psql2latex.py
 recons_crossmatch.py
 script_lab.py
-simluated_lc.py
+simulated_lc.py
 tess_lightcurves.py
+get_variability.py
 .DS_Store/
